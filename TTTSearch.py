@@ -2,6 +2,7 @@ import tkinter as tk
 
 ROWS = 3
 COLS = 3
+PADDING = 5
 
 
 class State():
@@ -29,13 +30,42 @@ class BoardVisual(tk.Frame):
         for x in range(ROWS):
             for y in range(COLS):
                 self.tiles.append(
-                    tk.Button(self, font=('Arial', 18),  bg="#eeeee4", borderwidth=1))
+                    tk.Button(self, font=('Arial', 18),  bg="white", borderwidth=1))
                 self.tiles[i].grid(column=y, row=x, sticky="news")
                 i += 1
 
 
+class InfoBar(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, parent, bg="#bbbbbb")
+
+        self.columnconfigure(2, weight=1)
+        self.rowconfigure(10, weight=1)
+
+        self.scoreLabel = tk.Label(self, text="Score", font=(
+            'Arial', 18),  bg="white", borderwidth=1, padx=PADDING, pady=PADDING)
+        self.scoreLabel.grid(row=30, column=2, sticky="EW")
+
+
+# main============
+
+# initialize GUI=====================================
 window = tk.Tk()
-boardGUI = BoardVisual(window)
-boardGUI.pack()
+window.configure(bg="black")
+
+infoBar = InfoBar(window)
+infoBar.configure(width=30)
+infoBar.pack(side="left", fill="both",
+             padx=(PADDING, 0), pady=PADDING)
+
+gameWindow = tk.Frame(window, bg="#eeeeee")
+gameWindow.rowconfigure(0, weight=1)
+gameWindow.columnconfigure(0, weight=1)
+gameWindow.pack(side="right", fill="both", expand="true",
+                padx=(PADDING, 0), pady=PADDING)
+
+boardGUI = BoardVisual(gameWindow)
+boardGUI.grid(row=0, column=0, sticky="news", padx=PADDING, pady=PADDING)
 
 window.mainloop()
+# ===================================================
